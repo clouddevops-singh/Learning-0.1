@@ -405,7 +405,6 @@
     .devops-loop svg {
       width: 100%;
       height: 100%;
-      animation: spin-slow 20s linear infinite;
     }
 
     @keyframes spin-slow {
@@ -439,9 +438,9 @@
     }
 
     .devops-points {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
       margin-top: 2rem;
     }
 
@@ -990,6 +989,10 @@
     }
 
     @media (max-width: 600px) {
+      .devops-points {
+        grid-template-columns: 1fr;
+      }
+
       .hero-stats {
         gap: 1.5rem;
       }
@@ -1208,31 +1211,59 @@
 
         <div class="devops-points">
           <div class="devops-point">
-            <div class="devops-point-icon" style="background:rgba(0,212,255,.12)">⚡</div>
+            <div class="devops-point-icon" style="background:rgba(0,212,255,.12); color:#00d4ff;">📋</div>
             <div class="devops-point-text">
-              <h4>Continuous Delivery</h4>
-              <p>Ship code to production multiple times a day, safely and automatically.</p>
+              <h4>1. Plan</h4>
+              <p>Define requirements, design architectures, and schedule sprints.</p>
             </div>
           </div>
           <div class="devops-point">
-            <div class="devops-point-icon" style="background:rgba(124,58,237,.12)">🔄</div>
+            <div class="devops-point-icon" style="background:rgba(59,130,246,.12); color:#3b82f6;">💻</div>
             <div class="devops-point-text">
-              <h4>Automation First</h4>
-              <p>Everything that can be automated, should be. Eliminate toil permanently.</p>
+              <h4>2. Code</h4>
+              <p>Develop features, track versions with Git, and review code.</p>
             </div>
           </div>
           <div class="devops-point">
-            <div class="devops-point-icon" style="background:rgba(16,185,129,.12)">📊</div>
+            <div class="devops-point-icon" style="background:rgba(124,58,237,.12); color:#7c3aed;">⚙️</div>
             <div class="devops-point-text">
-              <h4>Observability & Reliability</h4>
-              <p>Measure everything. Build systems that self-heal and alert before users notice.</p>
+              <h4>3. Build</h4>
+              <p>Compile source code, package dependencies, and containerize apps.</p>
             </div>
           </div>
           <div class="devops-point">
-            <div class="devops-point-icon" style="background:rgba(245,158,11,.12)">🤝</div>
+            <div class="devops-point-icon" style="background:rgba(236,72,153,.12); color:#ec4899;">🧪</div>
             <div class="devops-point-text">
-              <h4>Collaborative Culture</h4>
-              <p>Break down silos between Dev, Ops, Security and Business teams.</p>
+              <h4>4. Test</h4>
+              <p>Run automated test suites and perform security audits.</p>
+            </div>
+          </div>
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(244,63,94,.12); color:#f43f5e;">📦</div>
+            <div class="devops-point-text">
+              <h4>5. Release</h4>
+              <p>Manage build artifacts, stage versions, and verify compliance.</p>
+            </div>
+          </div>
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(16,185,129,.12); color:#10b981;">🚀</div>
+            <div class="devops-point-text">
+              <h4>6. Deploy</h4>
+              <p>Automate zero-downtime releases to production clouds.</p>
+            </div>
+          </div>
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(132,204,22,.12); color:#84cc16;">🛠️</div>
+            <div class="devops-point-text">
+              <h4>7. Operate</h4>
+              <p>Maintain server health, scaling, and infrastructure configurations.</p>
+            </div>
+          </div>
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(234,179,8,.12); color:#eab308;">📈</div>
+            <div class="devops-point-text">
+              <h4>8. Monitor</h4>
+              <p>Observe application metrics, aggregate logs, and self-heal.</p>
             </div>
           </div>
         </div>
@@ -1240,46 +1271,86 @@
 
       <div style="display:flex; flex-direction:column; align-items:center; gap:2rem;">
         <div class="devops-loop">
-          <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="200" cy="200" r="180" stroke="rgba(124,58,237,0.2)" stroke-width="1" stroke-dasharray="8 4" />
-            <circle cx="200" cy="200" r="130" stroke="rgba(0,212,255,0.15)" stroke-width="1" />
-            <!-- Loop arrows -->
-            <path d="M200 30 A170 170 0 0 1 370 200" stroke="url(#g1)" stroke-width="3" stroke-linecap="round" />
-            <path d="M370 200 A170 170 0 0 1 200 370" stroke="url(#g2)" stroke-width="3" stroke-linecap="round" />
-            <path d="M200 370 A170 170 0 0 1 30 200" stroke="url(#g3)" stroke-width="3" stroke-linecap="round" />
-            <path d="M30 200 A170 170 0 0 1 200 30" stroke="url(#g4)" stroke-width="3" stroke-linecap="round" />
-            <!-- Labels -->
-            <text x="270" y="85" fill="#00d4ff" font-size="14" font-weight="700" font-family="Inter">PLAN</text>
-            <text x="330" y="215" fill="#7c3aed" font-size="14" font-weight="700" font-family="Inter">BUILD</text>
-            <text x="250" y="345" fill="#10b981" font-size="14" font-weight="700" font-family="Inter">DEPLOY</text>
-            <text x="55" y="215" fill="#f59e0b" font-size="14" font-weight="700" font-family="Inter">OPERATE</text>
-            <!-- Dots at positions -->
-            <circle cx="200" cy="30" r="6" fill="#00d4ff" />
-            <circle cx="370" cy="200" r="6" fill="#7c3aed" />
-            <circle cx="200" cy="370" r="6" fill="#10b981" />
-            <circle cx="30" cy="200" r="6" fill="#f59e0b" />
+          <svg viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
-              <linearGradient id="g1" x1="200" y1="30" x2="370" y2="200" gradientUnits="userSpaceOnUse">
+              <filter id="glow-filter" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <linearGradient id="g1" x1="240" y1="90" x2="390" y2="240" gradientUnits="userSpaceOnUse">
                 <stop stop-color="#00d4ff" />
                 <stop offset="1" stop-color="#7c3aed" />
               </linearGradient>
-              <linearGradient id="g2" x1="370" y1="200" x2="200" y2="370" gradientUnits="userSpaceOnUse">
+              <linearGradient id="g2" x1="390" y1="240" x2="240" y2="390" gradientUnits="userSpaceOnUse">
                 <stop stop-color="#7c3aed" />
                 <stop offset="1" stop-color="#10b981" />
               </linearGradient>
-              <linearGradient id="g3" x1="200" y1="370" x2="30" y2="200" gradientUnits="userSpaceOnUse">
+              <linearGradient id="g3" x1="240" y1="390" x2="90" y2="240" gradientUnits="userSpaceOnUse">
                 <stop stop-color="#10b981" />
                 <stop offset="1" stop-color="#f59e0b" />
               </linearGradient>
-              <linearGradient id="g4" x1="30" y1="200" x2="200" y2="30" gradientUnits="userSpaceOnUse">
+              <linearGradient id="g4" x1="90" y1="240" x2="240" y2="90" gradientUnits="userSpaceOnUse">
                 <stop stop-color="#f59e0b" />
                 <stop offset="1" stop-color="#00d4ff" />
               </linearGradient>
+              <linearGradient id="infinity-grad" x1="180" y1="240" x2="300" y2="240" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#00d4ff" />
+                <stop offset="50%" stop-color="#7c3aed" />
+                <stop offset="100%" stop-color="#10b981" />
+              </linearGradient>
             </defs>
+
+            <circle cx="240" cy="240" r="165" stroke="rgba(255, 255, 255, 0.05)" stroke-dasharray="4 4" stroke-width="1" />
+            <circle cx="240" cy="240" r="115" stroke="rgba(255, 255, 255, 0.03)" stroke-width="1" />
+
+            <g class="devops-symbol-center">
+              <path d="M 240,240 C 220,215 180,215 180,240 C 180,265 220,265 240,240 C 260,215 300,215 300,240 C 300,265 260,265 240,240 Z" 
+                    stroke="url(#infinity-grad)" 
+                    stroke-width="5" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"
+                    fill="none" 
+                    filter="url(#glow-filter)" />
+            </g>
+
+            <g class="static-labels">
+              <text x="240" y="55" fill="#00d4ff" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">PLAN</text>
+              <text x="374" y="106" fill="#3b82f6" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">CODE</text>
+              <text x="430" y="240" fill="#7c3aed" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">BUILD</text>
+              <text x="374" y="374" fill="#ec4899" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">TEST</text>
+              <text x="240" y="425" fill="#f43f5e" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">RELEASE</text>
+              <text x="106" y="374" fill="#10b981" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">DEPLOY</text>
+              <text x="50" y="240" fill="#84cc16" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">OPERATE</text>
+              <text x="106" y="106" fill="#eab308" font-size="13" font-weight="800" font-family="Inter" text-anchor="middle" dominant-baseline="middle" style="text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);">MONITOR</text>
+            </g>
+
+            <g class="rotating-ring">
+              <animateTransform 
+                attributeName="transform" 
+                type="rotate" 
+                from="0 240 240" 
+                to="360 240 240" 
+                dur="25s" 
+                repeatCount="indefinite" />
+              <path d="M240 90 A150 150 0 0 1 390 240" stroke="url(#g1)" stroke-width="3.5" stroke-linecap="round" />
+              <path d="M390 240 A150 150 0 0 1 240 390" stroke="url(#g2)" stroke-width="3.5" stroke-linecap="round" />
+              <path d="M240 390 A150 150 0 0 1 90 240" stroke="url(#g3)" stroke-width="3.5" stroke-linecap="round" />
+              <path d="M90 240 A150 150 0 0 1 240 90" stroke="url(#g4)" stroke-width="3.5" stroke-linecap="round" />
+              <circle cx="240" cy="90" r="6" fill="#00d4ff" />
+              <circle cx="346" cy="134" r="6" fill="#3b82f6" />
+              <circle cx="390" cy="240" r="6" fill="#7c3aed" />
+              <circle cx="346" cy="346" r="6" fill="#ec4899" />
+              <circle cx="240" cy="390" r="6" fill="#f43f5e" />
+              <circle cx="134" cy="346" r="6" fill="#10b981" />
+              <circle cx="90" cy="240" r="6" fill="#84cc16" />
+              <circle cx="134" cy="134" r="6" fill="#eab308" />
+            </g>
           </svg>
           <div class="devops-loop-center">
-            <div class="icon">∞</div>
-            <div class="label">DevOps Loop</div>
+            <div class="label" style="margin-top:80px; font-size:.75rem; font-weight:700; color:var(--muted); letter-spacing:1.5px; text-transform:uppercase;">DevOps Lifecycle</div>
           </div>
         </div>
       </div>

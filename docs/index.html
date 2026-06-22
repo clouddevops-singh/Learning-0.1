@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps Mastery — Build From Scratch | Zero to Production</title>
+  <meta name="description"
+    content="Master DevOps from scratch. Linux, AWS, Docker, Kubernetes, Terraform, AI-powered pipelines and more. Join thousands of engineers transforming their careers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050b18;
+      --bg2: #080f22;
+      --bg3: #0d1730;
+      --accent: #00d4ff;
+      --accent2: #7c3aed;
+      --accent3: #10b981;
+      --gold: #f59e0b;
+      --red: #ef4444;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --card: rgba(255, 255, 255, 0.04);
+      --glow: rgba(0, 212, 255, 0.15);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 5%;
+      background: rgba(5, 11, 24, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff;
+      border: none;
+      padding: .6rem 1.4rem;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: .9rem;
+      text-decoration: none;
+      transition: opacity .2s;
+    }
+
+    .nav-cta:hover {
+      opacity: .85;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 5% 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+    }
+
+    .orb1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124, 58, 237, .35), transparent 70%);
+      top: -100px;
+      left: -150px;
+    }
+
+    .orb2 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 212, 255, .25), transparent 70%);
+      top: 100px;
+      right: -100px;
+    }
+
+    .orb3 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(16, 185, 129, .2), transparent 70%);
+      bottom: -50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(0, 212, 255, .1);
+      border: 1px solid rgba(0, 212, 255, .3);
+      color: var(--accent);
+      padding: .4rem 1.2rem;
+      border-radius: 50px;
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      animation: pulse-border 2s infinite;
+    }
+
+    @keyframes pulse-border {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 212, 255, .3);
+      }
+
+      50% {
+        box-shadow: 0 0 0 8px rgba(0, 212, 255, .0);
+      }
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent3);
+      border-radius: 50%;
+      animation: blink 1.4s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .2
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      max-width: 1000px;
+      margin-bottom: 1.5rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, #f472b6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-text2 {
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent3) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--muted);
+      max-width: 680px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff;
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      text-decoration: none;
+      box-shadow: 0 0 40px rgba(124, 58, 237, .4);
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(124, 58, 237, .6);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 1rem 2.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: border-color .2s, color .2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: .25rem;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, .02);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 3rem;
+      width: max-content;
+      animation: marquee 30s linear infinite;
+    }
+
+    @keyframes marquee {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      font-size: .85rem;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+      padding: .3rem 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+    }
+
+    .marquee-item span {
+      font-size: 1.1rem;
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 6rem 5%;
+      position: relative;
+    }
+
+    .section-tag {
+      display: inline-block;
+      color: var(--accent);
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: .8rem;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 3rem;
+    }
+
+    .section-center {
+      text-align: center;
+    }
+
+    .section-center .section-sub {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ── WHAT IS DEVOPS ── */
+    .devops-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .devops-loop {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: auto;
+    }
+
+    .devops-loop svg {
+      width: 100%;
+      height: 100%;
+      animation: spin-slow 20s linear infinite;
+    }
+
+    @keyframes spin-slow {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .devops-loop-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .devops-loop-center .icon {
+      font-size: 3rem;
+    }
+
+    .devops-loop-center .label {
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: .5rem;
+    }
+
+    .devops-points {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .devops-point {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .devops-point-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .devops-point-text h4 {
+      font-weight: 700;
+      margin-bottom: .2rem;
+    }
+
+    .devops-point-text p {
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    /* ── CURRICULUM ── */
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .topic-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+      cursor: default;
+    }
+
+    .topic-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--card-glow, transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .topic-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--card-color, var(--accent));
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3);
+    }
+
+    .topic-card:hover::before {
+      opacity: 1;
+    }
+
+    .topic-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      color: var(--muted);
+      margin-bottom: .8rem;
+    }
+
+    .topic-icon {
+      font-size: 2.5rem;
+      margin-bottom: .8rem;
+    }
+
+    .topic-card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: .5rem;
+    }
+
+    .topic-card p {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .topic-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      font-size: .7rem;
+      font-weight: 600;
+      padding: .25rem .7rem;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, .06);
+      color: var(--muted);
+    }
+
+    .topic-level {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      font-size: .7rem;
+      font-weight: 700;
+      padding: .25rem .7rem;
+      border-radius: 50px;
+    }
+
+    /* ── AI SECTION ── */
+    .ai-section {
+      background: linear-gradient(135deg, rgba(124, 58, 237, .1), rgba(0, 212, 255, .05));
+      border: 1px solid rgba(124, 58, 237, .2);
+      border-radius: 24px;
+      padding: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-section::before {
+      content: 'AI';
+      position: absolute;
+      right: -2rem;
+      top: -2rem;
+      font-size: 15rem;
+      font-weight: 900;
+      opacity: .03;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .ai-features {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .ai-feature {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+    }
+
+    .ai-feature-icon {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .ai-feature h4 {
+      font-weight: 700;
+      margin-bottom: .2rem;
+    }
+
+    .ai-feature p {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .ai-code {
+      background: #0a0e1a;
+      border: 1px solid rgba(0, 212, 255, .2);
+      border-radius: 16px;
+      padding: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      line-height: 1.8;
+      overflow: hidden;
+    }
+
+    .code-line {
+      display: flex;
+      gap: .8rem;
+    }
+
+    .code-prompt {
+      color: var(--accent3);
+    }
+
+    .code-cmd {
+      color: var(--accent);
+    }
+
+    .code-arg {
+      color: #f472b6;
+    }
+
+    .code-output {
+      color: var(--muted);
+    }
+
+    .code-success {
+      color: var(--accent3);
+    }
+
+    /* ── ROLES ── */
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 3rem;
+    }
+
+    .role-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.8rem;
+      text-align: center;
+      position: relative;
+      transition: transform .25s, border-color .25s, box-shadow .25s;
+    }
+
+    .role-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .3);
+    }
+
+    .role-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .role-card h3 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: .4rem;
+    }
+
+    .role-card p {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .role-salary {
+      display: inline-block;
+      padding: .3rem .9rem;
+      border-radius: 50px;
+      font-size: .8rem;
+      font-weight: 700;
+      background: rgba(16, 185, 129, .15);
+      color: var(--accent3);
+      border: 1px solid rgba(16, 185, 129, .3);
+    }
+
+    .role-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: .65rem;
+      font-weight: 700;
+      padding: .2rem .6rem;
+      border-radius: 50px;
+      background: rgba(245, 158, 11, .15);
+      color: var(--gold);
+      border: 1px solid rgba(245, 158, 11, .3);
+    }
+
+    /* ── BENEFITS ── */
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .benefit-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: transform .25s;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .benefit-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .benefit-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .benefit-card p {
+      font-size: .88rem;
+      color: var(--muted);
+    }
+
+    /* ── TIMELINE / JOURNEY ── */
+    .journey-wrap {
+      max-width: 800px;
+      margin: 3rem auto 0;
+    }
+
+    .journey-item {
+      display: flex;
+      gap: 2rem;
+      position: relative;
+      padding-bottom: 2.5rem;
+    }
+
+    .journey-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 40px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent2), transparent);
+    }
+
+    .journey-step {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .9rem;
+      box-shadow: 0 0 20px rgba(124, 58, 237, .4);
+    }
+
+    .journey-content h4 {
+      font-weight: 700;
+      margin-bottom: .3rem;
+    }
+
+    .journey-content p {
+      font-size: .88rem;
+      color: var(--muted);
+    }
+
+    .journey-duration {
+      display: inline-block;
+      margin-top: .5rem;
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: rgba(0, 212, 255, .1);
+      border: 1px solid rgba(0, 212, 255, .2);
+      padding: .2rem .7rem;
+      border-radius: 50px;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .testimonial-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .stars {
+      color: var(--gold);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .testimonial-card p {
+      font-size: .92rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .9rem;
+    }
+
+    .author-name {
+      font-weight: 700;
+      font-size: .9rem;
+    }
+
+    .author-role {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    /* ── CTA FINAL ── */
+    .cta-section {
+      text-align: center;
+      padding: 8rem 5%;
+      background: linear-gradient(to bottom, transparent, rgba(124, 58, 237, .08), transparent);
+    }
+
+    .cta-section h2 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin-bottom: 1.2rem;
+    }
+
+    .cta-section p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .cta-form {
+      display: flex;
+      gap: .8rem;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .cta-input {
+      flex: 1;
+      padding: 1rem 1.4rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .07);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: .95rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .cta-input:focus {
+      border-color: var(--accent);
+    }
+
+    .cta-input::placeholder {
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: gap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-size: 1.1rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-copy {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .85rem;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* ── ANIMATE ON SCROLL ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+
+      .devops-intro,
+      .ai-grid,
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .devops-loop {
+        width: 280px;
+        height: 280px;
+      }
+
+      nav .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .ai-section {
+        padding: 2rem 1.5rem;
+      }
+
+      .cta-form {
+        flex-direction: column;
+      }
+
+      footer {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    /* ── PROGRESS BAR (scrollspy) ── */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      z-index: 200;
+      transition: width .1s;
+    }
+
+    /* ── FLOATING ELEMENTS ── */
+    .floating-badge {
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .8rem 1.2rem;
+      font-size: .8rem;
+      font-weight: 600;
+      backdrop-filter: blur(10px);
+      white-space: nowrap;
+    }
+
+    .float1 {
+      top: 20%;
+      left: 5%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .float2 {
+      top: 35%;
+      right: 5%;
+      animation: float 6s ease-in-out infinite 2s;
+    }
+
+    .float3 {
+      bottom: 20%;
+      left: 8%;
+      animation: float 6s ease-in-out infinite 4s;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-12px)
+      }
+    }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .tab-btn {
+      padding: .6rem 1.4rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="progress"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">⚡ DevOps Mastery</div>
+    <ul class="nav-links">
+      <li><a href="#curriculum">Curriculum</a></li>
+      <li><a href="#roles">Careers</a></li>
+      <li><a href="#ai">AI & DevOps</a></li>
+      <li><a href="#benefits">Benefits</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Contact Us →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+
+    <!-- Floating badges -->
+    <div class="floating-badge float1">🐳 Docker deployed ✓</div>
+    <div class="floating-badge float2">☸️ K8s cluster live ✓</div>
+    <div class="floating-badge float3">🤖 AI Pipeline running ✓</div>
+
+    <div class="hero-badge">
+      <div class="dot"></div>
+      New Cohort Starting Soon — Limited Seats
+    </div>
+
+    <h1>
+      Master <span class="gradient-text">DevOps</span> &<br />
+      <span class="gradient-text2">Build From Scratch</span>
+    </h1>
+
+    <p>
+      From zero to production-ready engineer. Learn Linux, AWS, Docker, Kubernetes, Terraform,
+      AI-powered pipelines and everything in between — in one comprehensive, hands-on program.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">🚀 Get Started — Contact Us</a>
+      <a href="#curriculum" class="btn-secondary">View Curriculum →</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num gradient-text">200+</div>
+        <div class="stat-label">Hours of Content</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num gradient-text">94%</div>
+        <div class="stat-label">Placement Rate</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num gradient-text">$130K+</div>
+        <div class="stat-label">Avg. Salary</div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item"><span>🐧</span> Linux</div>
+      <div class="marquee-item"><span>☁️</span> AWS</div>
+      <div class="marquee-item"><span>🔧</span> Git & GitHub</div>
+      <div class="marquee-item"><span>🐳</span> Docker</div>
+      <div class="marquee-item"><span>☸️</span> Kubernetes</div>
+      <div class="marquee-item"><span>🏗️</span> Terraform</div>
+      <div class="marquee-item"><span>🤖</span> AI & LLMOps</div>
+      <div class="marquee-item"><span>⚙️</span> CI/CD Pipelines</div>
+      <div class="marquee-item"><span>📜</span> Shell Scripting</div>
+      <div class="marquee-item"><span>🔍</span> Monitoring & Observability</div>
+      <div class="marquee-item"><span>🔐</span> DevSecOps</div>
+      <div class="marquee-item"><span>📦</span> Helm Charts</div>
+      <!-- repeat for seamless loop -->
+      <div class="marquee-item"><span>🐧</span> Linux</div>
+      <div class="marquee-item"><span>☁️</span> AWS</div>
+      <div class="marquee-item"><span>🔧</span> Git & GitHub</div>
+      <div class="marquee-item"><span>🐳</span> Docker</div>
+      <div class="marquee-item"><span>☸️</span> Kubernetes</div>
+      <div class="marquee-item"><span>🏗️</span> Terraform</div>
+      <div class="marquee-item"><span>🤖</span> AI & LLMOps</div>
+      <div class="marquee-item"><span>⚙️</span> CI/CD Pipelines</div>
+      <div class="marquee-item"><span>📜</span> Shell Scripting</div>
+      <div class="marquee-item"><span>🔍</span> Monitoring & Observability</div>
+      <div class="marquee-item"><span>🔐</span> DevSecOps</div>
+      <div class="marquee-item"><span>📦</span> Helm Charts</div>
+    </div>
+  </div>
+
+  <!-- WHAT IS DEVOPS -->
+  <section id="about">
+    <div class="devops-intro fade-up">
+      <div>
+        <div class="section-tag">// What is DevOps</div>
+        <h2>The Culture That Ships <span class="gradient-text">Faster</span></h2>
+        <p style="color:var(--muted); margin-bottom:2rem; font-size:1.05rem; max-width:520px;">
+          DevOps is the union of people, process, and technology to continuously deliver value to customers.
+          It bridges the gap between Development and Operations — resulting in faster releases, higher reliability, and
+          less toil.
+        </p>
+
+        <div class="devops-points">
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(0,212,255,.12)">⚡</div>
+            <div class="devops-point-text">
+              <h4>Continuous Delivery</h4>
+              <p>Ship code to production multiple times a day, safely and automatically.</p>
+            </div>
+          </div>
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(124,58,237,.12)">🔄</div>
+            <div class="devops-point-text">
+              <h4>Automation First</h4>
+              <p>Everything that can be automated, should be. Eliminate toil permanently.</p>
+            </div>
+          </div>
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(16,185,129,.12)">📊</div>
+            <div class="devops-point-text">
+              <h4>Observability & Reliability</h4>
+              <p>Measure everything. Build systems that self-heal and alert before users notice.</p>
+            </div>
+          </div>
+          <div class="devops-point">
+            <div class="devops-point-icon" style="background:rgba(245,158,11,.12)">🤝</div>
+            <div class="devops-point-text">
+              <h4>Collaborative Culture</h4>
+              <p>Break down silos between Dev, Ops, Security and Business teams.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:2rem;">
+        <div class="devops-loop">
+          <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="200" r="180" stroke="rgba(124,58,237,0.2)" stroke-width="1" stroke-dasharray="8 4" />
+            <circle cx="200" cy="200" r="130" stroke="rgba(0,212,255,0.15)" stroke-width="1" />
+            <!-- Loop arrows -->
+            <path d="M200 30 A170 170 0 0 1 370 200" stroke="url(#g1)" stroke-width="3" stroke-linecap="round" />
+            <path d="M370 200 A170 170 0 0 1 200 370" stroke="url(#g2)" stroke-width="3" stroke-linecap="round" />
+            <path d="M200 370 A170 170 0 0 1 30 200" stroke="url(#g3)" stroke-width="3" stroke-linecap="round" />
+            <path d="M30 200 A170 170 0 0 1 200 30" stroke="url(#g4)" stroke-width="3" stroke-linecap="round" />
+            <!-- Labels -->
+            <text x="270" y="85" fill="#00d4ff" font-size="14" font-weight="700" font-family="Inter">PLAN</text>
+            <text x="330" y="215" fill="#7c3aed" font-size="14" font-weight="700" font-family="Inter">BUILD</text>
+            <text x="250" y="345" fill="#10b981" font-size="14" font-weight="700" font-family="Inter">DEPLOY</text>
+            <text x="55" y="215" fill="#f59e0b" font-size="14" font-weight="700" font-family="Inter">OPERATE</text>
+            <!-- Dots at positions -->
+            <circle cx="200" cy="30" r="6" fill="#00d4ff" />
+            <circle cx="370" cy="200" r="6" fill="#7c3aed" />
+            <circle cx="200" cy="370" r="6" fill="#10b981" />
+            <circle cx="30" cy="200" r="6" fill="#f59e0b" />
+            <defs>
+              <linearGradient id="g1" x1="200" y1="30" x2="370" y2="200" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#00d4ff" />
+                <stop offset="1" stop-color="#7c3aed" />
+              </linearGradient>
+              <linearGradient id="g2" x1="370" y1="200" x2="200" y2="370" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#7c3aed" />
+                <stop offset="1" stop-color="#10b981" />
+              </linearGradient>
+              <linearGradient id="g3" x1="200" y1="370" x2="30" y2="200" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#10b981" />
+                <stop offset="1" stop-color="#f59e0b" />
+              </linearGradient>
+              <linearGradient id="g4" x1="30" y1="200" x2="200" y2="30" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#f59e0b" />
+                <stop offset="1" stop-color="#00d4ff" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="devops-loop-center">
+            <div class="icon">∞</div>
+            <div class="label">DevOps Loop</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CURRICULUM -->
+  <section id="curriculum" style="background: rgba(255,255,255,.01);">
+    <div class="section-center fade-up">
+      <div class="section-tag">// Full Curriculum</div>
+      <h2>Everything You Need — <span class="gradient-text">Nothing You Don't</span></h2>
+      <p class="section-sub">
+        10 comprehensive modules. Real infrastructure. Real projects. Build from scratch, ship to production.
+      </p>
+    </div>
+
+    <div class="curriculum-grid fade-up">
+
+      <div class="topic-card"
+        style="--card-color:#f97316; --card-glow:linear-gradient(135deg,rgba(249,115,22,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(16,185,129,.15);color:#10b981;border:1px solid rgba(16,185,129,.3)">Beginner</div>
+        <div class="topic-num">MODULE 01</div>
+        <div class="topic-icon">🐧</div>
+        <h3>Linux Fundamentals</h3>
+        <p>Master the command line from zero. File systems, permissions, processes, networking, shell scripting, cron
+          jobs, and system administration like a pro.</p>
+        <div class="topic-tags">
+          <span class="tag">Bash</span><span class="tag">File Systems</span><span class="tag">Permissions</span>
+          <span class="tag">Processes</span><span class="tag">Networking</span><span class="tag">Cron</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#3b82f6; --card-glow:linear-gradient(135deg,rgba(59,130,246,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(16,185,129,.15);color:#10b981;border:1px solid rgba(16,185,129,.3)">Beginner</div>
+        <div class="topic-num">MODULE 02</div>
+        <div class="topic-icon">📜</div>
+        <h3>Shell Scripting</h3>
+        <p>Automate everything. Write production-grade Bash scripts, handle errors, parse arguments, build deployment
+          scripts, and create cron automation.</p>
+        <div class="topic-tags">
+          <span class="tag">Bash</span><span class="tag">Automation</span><span class="tag">Cron</span><span
+            class="tag">AWK</span><span class="tag">SED</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#f59e0b; --card-glow:linear-gradient(135deg,rgba(245,158,11,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)">Intermediate</div>
+        <div class="topic-num">MODULE 03</div>
+        <div class="topic-icon">🔧</div>
+        <h3>Git & Version Control</h3>
+        <p>Master branching strategies, merge conflicts, rebasing, Git workflows (GitFlow, trunk-based), pull requests,
+          and open source collaboration.</p>
+        <div class="topic-tags">
+          <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">GitFlow</span><span
+            class="tag">PRs</span><span class="tag">Hooks</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#0ea5e9; --card-glow:linear-gradient(135deg,rgba(14,165,233,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)">Intermediate</div>
+        <div class="topic-num">MODULE 04</div>
+        <div class="topic-icon">🐳</div>
+        <h3>Docker & Containers</h3>
+        <p>Containerize any application. Write Dockerfiles, multi-stage builds, Docker Compose, container networking,
+          volumes, and container security scanning.</p>
+        <div class="topic-tags">
+          <span class="tag">Dockerfile</span><span class="tag">Compose</span><span class="tag">Registry</span><span
+            class="tag">Networking</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#7c3aed; --card-glow:linear-gradient(135deg,rgba(124,58,237,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)">Advanced</div>
+        <div class="topic-num">MODULE 05</div>
+        <div class="topic-icon">☸️</div>
+        <h3>Kubernetes (K8s)</h3>
+        <p>Orchestrate containers at scale. Pods, Deployments, Services, Ingress, HPA, RBAC, Helm charts, Kustomize, and
+          production cluster hardening.</p>
+        <div class="topic-tags">
+          <span class="tag">Pods</span><span class="tag">Helm</span><span class="tag">RBAC</span><span
+            class="tag">Ingress</span><span class="tag">HPA</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#ff9900; --card-glow:linear-gradient(135deg,rgba(255,153,0,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)">Intermediate</div>
+        <div class="topic-num">MODULE 06</div>
+        <div class="topic-icon">☁️</div>
+        <h3>AWS Cloud</h3>
+        <p>Build and operate on AWS. EC2, S3, RDS, EKS, Lambda, VPC, IAM, CloudWatch, Route53, Load Balancers, and
+          architecture best practices.</p>
+        <div class="topic-tags">
+          <span class="tag">EC2</span><span class="tag">EKS</span><span class="tag">Lambda</span><span
+            class="tag">VPC</span><span class="tag">IAM</span><span class="tag">S3</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#5c4ee5; --card-glow:linear-gradient(135deg,rgba(92,78,229,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)">Advanced</div>
+        <div class="topic-num">MODULE 07</div>
+        <div class="topic-icon">🏗️</div>
+        <h3>Terraform & IaC</h3>
+        <p>Infrastructure as Code from scratch. Provision AWS with Terraform, manage state, write reusable modules,
+          workspaces, and CI/CD integration for infra.</p>
+        <div class="topic-tags">
+          <span class="tag">HCL</span><span class="tag">Modules</span><span class="tag">State</span><span
+            class="tag">Workspaces</span><span class="tag">Atlantis</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#00d4ff; --card-glow:linear-gradient(135deg,rgba(0,212,255,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)">Intermediate</div>
+        <div class="topic-num">MODULE 08</div>
+        <div class="topic-icon">⚙️</div>
+        <h3>CI/CD Pipelines</h3>
+        <p>Automate software delivery. GitHub Actions, Jenkins, GitLab CI, ArgoCD for GitOps, blue/green deployments,
+          canary releases, and rollback strategies.</p>
+        <div class="topic-tags">
+          <span class="tag">GitHub Actions</span><span class="tag">Jenkins</span><span class="tag">ArgoCD</span><span
+            class="tag">GitOps</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#10b981; --card-glow:linear-gradient(135deg,rgba(16,185,129,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)">Advanced</div>
+        <div class="topic-num">MODULE 09</div>
+        <div class="topic-icon">🔍</div>
+        <h3>Monitoring & Observability</h3>
+        <p>See everything. Prometheus, Grafana, ELK Stack, Loki, distributed tracing with Jaeger, alerting, dashboards,
+          and SLOs/SLAs.</p>
+        <div class="topic-tags">
+          <span class="tag">Prometheus</span><span class="tag">Grafana</span><span class="tag">ELK</span><span
+            class="tag">Jaeger</span><span class="tag">SRE</span>
+        </div>
+      </div>
+
+      <div class="topic-card"
+        style="--card-color:#f472b6; --card-glow:linear-gradient(135deg,rgba(244,114,182,.06),transparent)">
+        <div class="topic-level"
+          style="background:rgba(239,68,68,.15);color:#ef4444;border:1px solid rgba(239,68,68,.3)">Advanced</div>
+        <div class="topic-num">MODULE 10</div>
+        <div class="topic-icon">🤖</div>
+        <h3>AI & DevOps (LLMOps)</h3>
+        <p>The future of engineering. Deploy AI models, build LLM pipelines, use AI for code reviews, incident analysis,
+          auto-scaling decisions, and AI-powered observability.</p>
+        <div class="topic-tags">
+          <span class="tag">LLMOps</span><span class="tag">MLflow</span><span class="tag">AI Agents</span><span
+            class="tag">RAG</span><span class="tag">AIOps</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- AI SECTION -->
+  <section id="ai">
+    <div class="ai-section fade-up">
+      <div class="section-tag" style="margin-bottom:1rem;">// DevOps With AI</div>
+      <h2 style="margin-bottom:.5rem;">The Next Frontier:<br /><span class="gradient-text">AI-Powered DevOps</span></h2>
+      <p style="color:var(--muted); margin-bottom:3rem; max-width:600px;">
+        AI is reshaping how engineers build, deploy, and operate systems. Don't just learn DevOps — learn DevOps
+        <em>with AI</em>, the way the industry is already moving.
+      </p>
+      <div class="ai-grid">
+        <div class="ai-features">
+          <div class="ai-feature">
+            <div class="ai-feature-icon">🧠</div>
+            <div>
+              <h4>AI-Assisted Code Reviews</h4>
+              <p>Integrate LLMs into your PR pipeline for automated security, quality, and performance feedback.</p>
+            </div>
+          </div>
+          <div class="ai-feature">
+            <div class="ai-feature-icon">🚨</div>
+            <div>
+              <h4>AIOps — Intelligent Alerting</h4>
+              <p>Use AI to detect anomalies, reduce alert noise by 80%, and auto-diagnose incidents before humans can.
+              </p>
+            </div>
+          </div>
+          <div class="ai-feature">
+            <div class="ai-feature-icon">📦</div>
+            <div>
+              <h4>LLMOps — Deploy AI Models</h4>
+              <p>Build pipelines to train, version, serve, and monitor Large Language Models at production scale.</p>
+            </div>
+          </div>
+          <div class="ai-feature">
+            <div class="ai-feature-icon">⚡</div>
+            <div>
+              <h4>AI Agents for Automation</h4>
+              <p>Deploy autonomous agents that can provision infra, run playbooks, and resolve incidents with no human
+                input.</p>
+            </div>
+          </div>
+          <div class="ai-feature">
+            <div class="ai-feature-icon">🔐</div>
+            <div>
+              <h4>AI-Powered Security Scanning</h4>
+              <p>Shift-left security with AI models that scan Dockerfiles, Terraform plans, and code for CVEs in
+                real-time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div
+            style="margin-bottom:.8rem; color:var(--muted); font-size:.8rem; font-family:'JetBrains Mono',monospace;">
+            // AI DevOps Pipeline Demo
+          </div>
+          <div class="ai-code">
+            <div class="code-line"><span class="code-prompt">$</span> <span class="code-cmd">git push</span> <span
+                class="code-arg">origin main</span></div>
+            <div class="code-line" style="margin-top:.5rem"><span class="code-output">▶ CI Pipeline triggered...</span>
+            </div>
+            <div class="code-line"><span class="code-output">▶ 🤖 AI Code Review started...</span></div>
+            <div class="code-line"><span class="code-success">✓ No security vulnerabilities found</span></div>
+            <div class="code-line"><span class="code-success">✓ Performance score: 98/100</span></div>
+            <div class="code-line" style="margin-top:.5rem"><span class="code-output">▶ Docker build &amp;
+                scan...</span></div>
+            <div class="code-line"><span class="code-success">✓ Image size optimized (320MB → 48MB)</span></div>
+            <div class="code-line" style="margin-top:.5rem"><span class="code-output">▶ Deploying to K8s (canary
+                10%)...</span></div>
+            <div class="code-line"><span class="code-output">▶ 🤖 AI traffic analysis...</span></div>
+            <div class="code-line"><span class="code-success">✓ Latency p99: 12ms (healthy)</span></div>
+            <div class="code-line"><span class="code-output">▶ Promoting to 100% traffic...</span></div>
+            <div class="code-line" style="margin-top:.5rem"><span class="code-success">✅ Production deploy
+                successful!</span></div>
+            <div class="code-line"><span class="code-output"> Duration: 4m 32s | Zero downtime</span></div>
+          </div>
+          <div style="margin-top:1.5rem; display:flex; gap:.8rem; flex-wrap:wrap;">
+            <span
+              style="background:rgba(0,212,255,.1);border:1px solid rgba(0,212,255,.2);color:var(--accent);padding:.4rem 1rem;border-radius:50px;font-size:.8rem;font-weight:700;">🤖
+              AI-First Pipeline</span>
+            <span
+              style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);color:#10b981;padding:.4rem 1rem;border-radius:50px;font-size:.8rem;font-weight:700;">✨
+              Zero Downtime</span>
+            <span
+              style="background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.2);color:#a78bfa;padding:.4rem 1rem;border-radius:50px;font-size:.8rem;font-weight:700;">🔐
+              Security Built-in</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROLES / CAREERS -->
+  <section id="roles">
+    <div class="section-center fade-up">
+      <div class="section-tag">// Career Paths</div>
+      <h2>One Program, <span class="gradient-text">Six Career Paths</span></h2>
+      <p class="section-sub">This program prepares you for the most in-demand engineering roles in the industry. Choose
+        your path or master them all.</p>
+    </div>
+    <div class="roles-grid fade-up">
+
+      <div class="role-card" style="border-color:rgba(0,212,255,.15);">
+        <div class="role-badge">Most Popular</div>
+        <div class="role-icon">🚀</div>
+        <h3>DevOps Engineer</h3>
+        <p>Bridge development and operations. Own CI/CD, cloud infra, and automation across the entire software
+          lifecycle.</p>
+        <div class="role-salary">$110K – $165K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: Docker • K8s • CI/CD • AWS • Terraform
+        </div>
+      </div>
+
+      <div class="role-card" style="border-color:rgba(239,68,68,.15);">
+        <div class="role-icon">🛡️</div>
+        <h3>Site Reliability Engineer</h3>
+        <p>Apply software engineering to operations. Own SLOs, incident response, reliability, and eliminating toil at
+          scale.</p>
+        <div class="role-salary">$130K – $180K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: SLOs • Prometheus • Incident Mgmt • Chaos Engineering
+        </div>
+      </div>
+
+      <div class="role-card" style="border-color:rgba(124,58,237,.15);">
+        <div class="role-badge">High Demand</div>
+        <div class="role-icon">🏛️</div>
+        <h3>Platform Engineer</h3>
+        <p>Build internal developer platforms (IDPs). Create the golden paths that make every dev team 10× more
+          productive.</p>
+        <div class="role-salary">$120K – $175K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: K8s • Backstage • Crossplane • GitOps
+        </div>
+      </div>
+
+      <div class="role-card" style="border-color:rgba(245,158,11,.15);">
+        <div class="role-icon">⚙️</div>
+        <h3>Systems Engineer</h3>
+        <p>Design and manage complex systems. Own performance, capacity planning, OS internals, and core infrastructure
+          reliability.</p>
+        <div class="role-salary">$100K – $155K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: Linux • Networking • Storage • Performance
+        </div>
+      </div>
+
+      <div class="role-card" style="border-color:rgba(16,185,129,.15);">
+        <div class="role-icon">🌐</div>
+        <h3>Infrastructure Engineer</h3>
+        <p>Design, provision, and maintain the backbone of cloud infrastructure. Networks, security, cost optimization,
+          and IaC.</p>
+        <div class="role-salary">$105K – $160K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: Terraform • AWS • Networking • Security
+        </div>
+      </div>
+
+      <div class="role-card" style="border-color:rgba(244,114,182,.15);">
+        <div class="role-badge">$$$</div>
+        <div class="role-icon">🏗️</div>
+        <h3>Cloud Architect</h3>
+        <p>Design enterprise-scale cloud solutions. Define architecture standards, lead migrations, and guide
+          organizations on cloud strategy.</p>
+        <div class="role-salary">$160K – $230K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: AWS • Multi-cloud • Cost • Security • Design Patterns
+        </div>
+      </div>
+
+      <div class="role-card" style="border-color:rgba(255,153,0,.15);">
+        <div class="role-badge">High Demand</div>
+        <div class="role-icon">☁️</div>
+        <h3>AWS Cloud Engineer</h3>
+        <p>Specialise in Amazon Web Services. Architect, deploy and maintain scalable, secure cloud workloads using the
+          full AWS ecosystem.</p>
+        <div class="role-salary">$105K – $155K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: EC2 • EKS • Lambda • RDS • VPC • CloudWatch • IAM
+        </div>
+      </div>
+
+      <div class="role-card" style="border-color:rgba(251,191,36,.15);">
+        <div class="role-icon">⚙️</div>
+        <h3>Systems Engineer</h3>
+        <p>Own the core foundation every application runs on. Deep expertise in Linux, networking, storage, performance
+          tuning, and OS-level reliability.</p>
+        <div class="role-salary">$95K – $150K / yr</div>
+        <div style="margin-top:1rem; font-size:.8rem; color:var(--muted);">
+          Skills: Linux • Networking • Kernel • Storage • Capacity Planning
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section id="benefits" style="background:rgba(255,255,255,.01)">
+    <div class="section-center fade-up">
+      <div class="section-tag">// Why Learn DevOps</div>
+      <h2>Every Reason You <span class="gradient-text2">Need This</span></h2>
+      <p class="section-sub">DevOps is not a trend. It's the standard operating model of every world-class engineering
+        team on the planet.</p>
+    </div>
+    <div class="benefits-grid fade-up">
+      <div class="benefit-card">
+        <div class="benefit-icon">💰</div>
+        <h3>Top 3 Highest-Paying Roles</h3>
+        <p>DevOps, SRE, and Platform Engineers consistently rank among the highest-compensated tech positions globally.
+          Median $130K+ in the US.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">📈</div>
+        <h3>Explosive Job Market Growth</h3>
+        <p>DevOps roles are projected to grow 25% through 2028. Every company — from startup to Fortune 500 — is hiring
+          right now.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🌍</div>
+        <h3>Work From Anywhere</h3>
+        <p>DevOps is remote-native. Build and operate infrastructure for companies worldwide without leaving your home
+          office.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔒</div>
+        <h3>Future-Proof Skills</h3>
+        <p>Cloud, containers, and automation are not going away. These skills become more valuable as AI amplifies — not
+          replaces — great engineers.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🚀</div>
+        <h3>Ship Products 200× Faster</h3>
+        <p>Elite DevOps teams deploy thousands of times per day with near-zero failures. You become the engineer that
+          makes that happen.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🤖</div>
+        <h3>Lead the AI Wave</h3>
+        <p>AI needs infrastructure. The engineers who can deploy, scale, and operate AI systems will command the highest
+          salaries of the next decade.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🏆</div>
+        <h3>Industry Certifications</h3>
+        <p>Our curriculum aligns with AWS Solutions Architect, CKA (Kubernetes), Terraform Associate, and more — certs
+          that pay for themselves.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🤝</div>
+        <h3>Community of 50K+ Engineers</h3>
+        <p>Join a global community. Pair program, get code reviewed, find your next job referral, and share war stories
+          from production.</p>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🎯</div>
+        <h3>Project-Based Learning</h3>
+        <p>Build a complete DevOps pipeline from scratch for a real SaaS product. Your GitHub becomes your portfolio —
+          not a certificate on a wall.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNING JOURNEY -->
+  <section id="journey">
+    <div class="section-center fade-up">
+      <div class="section-tag">// Your Learning Path</div>
+      <h2>From Zero to <span class="gradient-text">Production Engineer</span></h2>
+      <p class="section-sub">A structured 6-month journey that takes complete beginners to job-ready engineers — step by
+        step.</p>
+    </div>
+    <div class="journey-wrap fade-up">
+      <div class="journey-item">
+        <div class="journey-step">1</div>
+        <div class="journey-content">
+          <h4>Foundation — Linux & Shell</h4>
+          <p>Get comfortable with the command line. File systems, networking, permissions, bash scripting, and thinking
+            like a systems engineer.</p>
+          <span class="journey-duration">Weeks 1–3</span>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-step">2</div>
+        <div class="journey-content">
+          <h4>Version Control & Collaboration</h4>
+          <p>Master Git, branching models, pull requests, code reviews, and open-source collaboration workflows used at
+            top tech companies.</p>
+          <span class="journey-duration">Weeks 4–5</span>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-step">3</div>
+        <div class="journey-content">
+          <h4>Containers — Docker</h4>
+          <p>Containerize applications, write optimized Dockerfiles, set up multi-container environments with Compose,
+            and push to registries.</p>
+          <span class="journey-duration">Weeks 6–8</span>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-step">4</div>
+        <div class="journey-content">
+          <h4>Cloud & Infrastructure — AWS + Terraform</h4>
+          <p>Provision real AWS infrastructure with Terraform. VPCs, EC2, RDS, IAM, EKS, S3 — and manage it all as
+            versioned code.</p>
+          <span class="journey-duration">Weeks 9–14</span>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-step">5</div>
+        <div class="journey-content">
+          <h4>Orchestration — Kubernetes</h4>
+          <p>Graduate from single containers to production clusters. Deployments, scaling, Helm, Ingress, GitOps with
+            ArgoCD.</p>
+          <span class="journey-duration">Weeks 15–20</span>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-step">6</div>
+        <div class="journey-content">
+          <h4>CI/CD & Automation Pipelines</h4>
+          <p>Build end-to-end delivery pipelines with GitHub Actions, Jenkins, and GitOps. Canary deployments,
+            blue/green, automated rollbacks.</p>
+          <span class="journey-duration">Weeks 21–24</span>
+        </div>
+      </div>
+      <div class="journey-item">
+        <div class="journey-step">★</div>
+        <div class="journey-content">
+          <h4>Capstone — Full DevOps System with AI</h4>
+          <p>Design, build, and deploy a complete production system from scratch. CI/CD + K8s + Monitoring + AI
+            pipeline. Your career-defining project.</p>
+          <span class="journey-duration">Final 4 Weeks</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section style="background:rgba(255,255,255,.01)">
+    <div class="section-center fade-up">
+      <div class="section-tag">// Student Stories</div>
+      <h2>Real People, <span class="gradient-text">Real Transformations</span></h2>
+      <p class="section-sub">These aren't cherry-picked. This is what happens when you commit to learning the right way.
+      </p>
+    </div>
+    <div class="testimonials-grid fade-up">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"I went from a helpdesk technician to a DevOps Engineer at a Series B startup in 7 months. The Kubernetes and
+          Terraform modules alone were worth 10× the cost."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">RS</div>
+          <div>
+            <div class="author-name">Rahul Sharma</div>
+            <div class="author-role">DevOps Engineer @ FinTech Startup</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"The AI + DevOps module is unlike anything else out there. I'm now building LLM deployment pipelines at work.
+          My manager thinks I'm a wizard."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">PK</div>
+          <div>
+            <div class="author-name">Priya Kaur</div>
+            <div class="author-role">Platform Engineer @ E-Commerce Giant</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p>"As a backend dev with zero infra knowledge, this course was exactly what I needed. I got promoted to Senior
+          Engineer after completing it. $42K salary jump."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">AM</div>
+          <div>
+            <div class="author-name">Arjun Mehta</div>
+            <div class="author-role">Senior Engineer @ Cloud SaaS Company</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="cta-section fade-up">
+    <div class="section-tag">// Get In Touch</div>
+    <h2>Ready to <span class="gradient-text">Build From Scratch?</span></h2>
+    <p>Have questions about the program, curriculum, or career support? Reach out — our team responds within 24 hours.
+    </p>
+
+    <div style="display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin:2.5rem 0;">
+      <a href="tel:+911234567890"
+        style="display:flex; align-items:center; gap:1rem; background:rgba(255,255,255,.05); border:1px solid rgba(0,212,255,.2); border-radius:16px; padding:1.4rem 2.2rem; text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(0,212,255,.5)'"
+        onmouseout="this.style.transform='';this.style.borderColor='rgba(0,212,255,.2)'">
+        <div
+          style="width:48px;height:48px;border-radius:12px;background:rgba(0,212,255,.12);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+          📞</div>
+        <div style="text-align:left;">
+          <div
+            style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:.2rem;">
+            Call Us</div>
+          <div style="font-size:1.15rem;font-weight:800;color:var(--accent);">+91 98765 43210</div>
+          <div style="font-size:.78rem;color:var(--muted);">Mon–Sat, 9 AM – 7 PM IST</div>
+        </div>
+      </a>
+
+      <a href="mailto:learn@devopsmastery.in"
+        style="display:flex; align-items:center; gap:1rem; background:rgba(255,255,255,.05); border:1px solid rgba(124,58,237,.2); border-radius:16px; padding:1.4rem 2.2rem; text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(124,58,237,.5)'"
+        onmouseout="this.style.transform='';this.style.borderColor='rgba(124,58,237,.2)'">
+        <div
+          style="width:48px;height:48px;border-radius:12px;background:rgba(124,58,237,.12);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+          ✉️</div>
+        <div style="text-align:left;">
+          <div
+            style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:.2rem;">
+            Email Us</div>
+          <div style="font-size:1.05rem;font-weight:800;color:#a78bfa;">learn@devopsmastery.in</div>
+          <div style="font-size:.78rem;color:var(--muted);">We reply within 24 hours</div>
+        </div>
+      </a>
+
+      <a href="https://wa.me/919876543210"
+        style="display:flex; align-items:center; gap:1rem; background:rgba(255,255,255,.05); border:1px solid rgba(16,185,129,.2); border-radius:16px; padding:1.4rem 2.2rem; text-decoration:none; color:var(--text); transition:border-color .2s, transform .2s;"
+        onmouseover="this.style.transform='translateY(-4px)';this.style.borderColor='rgba(16,185,129,.5)'"
+        onmouseout="this.style.transform='';this.style.borderColor='rgba(16,185,129,.2)'">
+        <div
+          style="width:48px;height:48px;border-radius:12px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;">
+          💬</div>
+        <div style="text-align:left;">
+          <div
+            style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:.2rem;">
+            WhatsApp</div>
+          <div style="font-size:1.15rem;font-weight:800;color:#10b981;">+91 98765 43210</div>
+          <div style="font-size:.78rem;color:var(--muted);">Chat with an advisor instantly</div>
+        </div>
+      </a>
+    </div>
+
+    <div style="display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-top:1.5rem;">
+      <div style="display:flex; align-items:center; gap:.5rem; color:var(--muted); font-size:.85rem;">
+        <span style="color:var(--accent3)">✓</span> Build real projects
+      </div>
+      <div style="display:flex; align-items:center; gap:.5rem; color:var(--muted); font-size:.85rem;">
+        <span style="color:var(--accent3)">✓</span> Lifetime access
+      </div>
+      <div style="display:flex; align-items:center; gap:.5rem; color:var(--muted); font-size:.85rem;">
+        <span style="color:var(--accent3)">✓</span> Community support
+      </div>
+      <div style="display:flex; align-items:center; gap:.5rem; color:var(--muted); font-size:.85rem;">
+        <span style="color:var(--accent3)">✓</span> Certificate of completion
+      </div>
+      <div style="display:flex; align-items:center; gap:.5rem; color:var(--muted); font-size:.85rem;">
+        <span style="color:var(--accent3)">✓</span> Job placement support
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="flex-direction:column; gap:1.5rem; text-align:center; padding:3rem 5%;">
+    <div class="footer-logo" style="font-size:1.4rem;">⚡ DevOps Mastery</div>
+    <div style="display:flex; gap:2rem; justify-content:center; flex-wrap:wrap;">
+      <a href="tel:+919876543210"
+        style="display:flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s"
+        onmouseover="this.style.color='#00d4ff'" onmouseout="this.style.color='var(--muted)'">
+        📞 <span>+91 98765 43210</span>
+      </a>
+      <a href="mailto:learn@devopsmastery.in"
+        style="display:flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.9rem;transition:color .2s"
+        onmouseover="this.style.color='#00d4ff'" onmouseout="this.style.color='var(--muted)'">
+        ✉️ <span>learn@devopsmastery.in</span>
+      </a>
+    </div>
+    <div class="footer-links" style="justify-content:center;">
+      <a href="#">GitHub</a>
+      <a href="#">Discord</a>
+      <a href="#">Twitter</a>
+      <a href="#">LinkedIn</a>
+    </div>
+    <div class="footer-copy">© 2025 DevOps Mastery. Built with ❤️ for engineers worldwide.</div>
+  </footer>
+
+  <script>
+    // Progress bar
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.body.scrollHeight - window.innerHeight;
+      document.getElementById('progress').style.width = (scrolled / total * 100) + '%';
+    });
+
+    // Fade up on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Animated counter
+    function animateCount(el, target, suffix = '') {
+      let count = 0;
+      const step = target / 80;
+      const interval = setInterval(() => {
+        count += step;
+        if (count >= target) { count = target; clearInterval(interval); }
+        el.textContent = Math.floor(count).toLocaleString() + suffix;
+      }, 20);
+    }
+
+    const statsObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          document.querySelectorAll('.stat-num').forEach((el, i) => {
+            const display = ['200+', '94%', '$130K+'];
+            setTimeout(() => { el.textContent = display[i]; }, i * 150);
+          });
+          statsObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.hero-stats');
+    if (statsSection) statsObs.observe(statsSection);
+  </script>
+</body>
+
+</html>

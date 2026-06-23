@@ -1129,6 +1129,155 @@
     .tab-panel.active {
       display: block;
     }
+
+    /* ── COURSE DETAIL CARDS ── */
+    .course-detail-card {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 3rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+      align-items: start;
+      text-align: left;
+    }
+
+    .course-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .course-duration-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      align-self: flex-start;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+    }
+
+    .course-info h3 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .course-info p {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .course-highlights {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+
+    .course-highlight-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .course-highlight-item span {
+      color: var(--accent3);
+      font-weight: bold;
+    }
+
+    .course-syllabus {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+
+    .course-syllabus h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.8rem;
+      color: var(--text);
+    }
+
+    .syllabus-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .syllabus-timeline-item {
+      position: relative;
+      padding-left: 2rem;
+      text-align: left;
+    }
+
+    .syllabus-timeline-item::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    .syllabus-timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 9px;
+      top: 18px;
+      bottom: -22px;
+      width: 2px;
+      background: var(--border);
+    }
+
+    .syllabus-week {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent2);
+      margin-bottom: 0.2rem;
+    }
+
+    .syllabus-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .syllabus-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 900px) {
+      .course-detail-card {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
+      }
+    }
   </style>
 </head>
 
@@ -1139,7 +1288,8 @@
   <nav>
     <div class="nav-logo">⚡ DevOps Mastery</div>
     <ul class="nav-links">
-      <li><a href="#curriculum">Curriculum</a></li>
+      <li><a href="#curriculum">Full Curriculum</a></li>
+      <li><a href="#courses">Courses</a></li>
       <li><a href="#roles">Careers</a></li>
       <li><a href="#ai">AI & DevOps</a></li>
       <li><a href="#benefits">Benefits</a></li>
@@ -1554,6 +1704,384 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- INDIVIDUAL COURSES SECTION -->
+  <section id="courses" style="background: rgba(255,255,255,.01); padding: 6rem 5% 4rem; border-top: 1px solid var(--border);">
+    <div class="section-center fade-up">
+      <div class="section-tag">// Specialized Mastery Paths</div>
+      <h2>Individual & <span class="gradient-text">Co-Mastery Courses</span></h2>
+      <p class="section-sub">
+        Want to focus on specific tools or tracks? Enroll in our dedicated deep-dive courses with standard 1:1 mentorship and lab resources.
+      </p>
+    </div>
+
+    <div class="courses-container fade-up" style="max-width: 1200px; margin: 3rem auto 0;">
+      <!-- Tab Navigation -->
+      <div class="tabs" style="justify-content: center; margin-bottom: 2.5rem; gap: 0.6rem;">
+        <button class="tab-btn active" onclick="switchCourseTab(event, 'course-linux-aws')">☁️ Linux + AWS Mastery</button>
+        <button class="tab-btn" onclick="switchCourseTab(event, 'course-git')">🔧 Git & GitHub</button>
+        <button class="tab-btn" onclick="switchCourseTab(event, 'course-linux')">🐧 Linux Core</button>
+        <button class="tab-btn" onclick="switchCourseTab(event, 'course-aws')">☁️ AWS Cloud</button>
+        <button class="tab-btn" onclick="switchCourseTab(event, 'course-docker')">🐳 Docker & Containers</button>
+        <button class="tab-btn" onclick="switchCourseTab(event, 'course-terraform')">🏗️ Terraform (IaC)</button>
+        <button class="tab-btn" onclick="switchCourseTab(event, 'course-cicd')">⚙️ CI/CD + Jenkins</button>
+        <button class="tab-btn" onclick="switchCourseTab(event, 'course-monitoring')">🔍 Monitoring & Observability</button>
+      </div>
+
+      <!-- Tab Content Panels -->
+      <div class="tab-content">
+        <!-- Linux + AWS Mastery -->
+        <div id="course-linux-aws" class="tab-panel active">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 8–10 Weeks Mastery</span>
+              <h3>Linux + AWS Cloud Mastery</h3>
+              <p>
+                A combined specialized track engineered to take you from basic terminal shell execution to designing and deploying highly available, production-grade cloud environments on Amazon Web Services.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> 100% Practical Labs on Real AWS Accounts</div>
+                <div class="course-highlight-item"><span>✓</span> Hands-on Command Line Administration</div>
+                <div class="course-highlight-item"><span>✓</span> Secure Multi-Tier VPC Architectures</div>
+                <div class="course-highlight-item"><span>✓</span> Elastic Scaling and Load Balancing</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Weeks 1–3</div>
+                  <div class="syllabus-title">Linux Command Line & Automation</div>
+                  <div class="syllabus-desc">Linux directories, file system permissions, user administration, systemd service architecture, processes, log analytics, and cron shell automations.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Weeks 4–6</div>
+                  <div class="syllabus-title">AWS Core Networking & Virtual Compute</div>
+                  <div class="syllabus-desc">Designing multi-subnet Virtual Private Clouds (VPC), Route53 DNS setup, NAT Gateways, Load Balancers, and provisioning compute resources via EC2 with Auto Scaling Groups.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Weeks 7–8</div>
+                  <div class="syllabus-title">Secure Storage & Managed Databases</div>
+                  <div class="syllabus-desc">Configuring S3 data storage, IAM access control roles/policies, managed SQL Databases with RDS (MySQL/PostgreSQL), and database clustering.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Weeks 9–10</div>
+                  <div class="syllabus-title">Advanced Services & Kubernetes Deployments</div>
+                  <div class="syllabus-desc">Serverless computing with Lambda, deploying containers using Amazon EKS (Kubernetes), CloudWatch monitoring alarms, and cost estimation optimizations.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Git & GitHub -->
+        <div id="course-git" class="tab-panel">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 2–3 Weeks Course</span>
+              <h3>Git & GitHub Version Control</h3>
+              <p>
+                Master professional source code versioning, advanced branching strategies, conflict resolution, and collaborative development cycles utilized inside major technology organizations.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> Graph-based Git internals and plumbing</div>
+                <div class="course-highlight-item"><span>✓</span> Multi-author merge conflict resolutions</div>
+                <div class="course-highlight-item"><span>✓</span> GitFlow & Trunk-based workflows</div>
+                <div class="course-highlight-item"><span>✓</span> Interactive Rebasing and commit sanitization</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 1</div>
+                  <div class="syllabus-title">Git Fundamentals & Commits</div>
+                  <div class="syllabus-desc">Staging areas, commit graphs, local and remote syncing, branching, head tracking, and recovering from bad commits using git reset, revert, and restore.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 2</div>
+                  <div class="syllabus-title">Collaborative Workflows & Conflict Resolution</div>
+                  <div class="syllabus-desc">Branch strategies, opening pull requests, running interactive code reviews, resolving three-way merge conflicts, and aligning team workflows.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 3</div>
+                  <div class="syllabus-title">Advanced Git Plumbing & Automation Hooks</div>
+                  <div class="syllabus-desc">Interactive rebasing, stashing, git cherry-pick, setting up git hooks for pre-commit linting, and basic automation pipelines.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Linux Core -->
+        <div id="course-linux" class="tab-panel">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 3–4 Weeks Course</span>
+              <h3>Linux Core Administration</h3>
+              <p>
+                Build a bulletproof operational foundation in Linux system administration. Learn command structures, configurations, process virtualization, and shell script programming that run the modern web infrastructure.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> Linux Directories and System Architecture</div>
+                <div class="course-highlight-item"><span>✓</span> Shell Scripting automation from scratch</div>
+                <div class="course-highlight-item"><span>✓</span> Systemd service management & logging</div>
+                <div class="course-highlight-item"><span>✓</span> Network diagnosis and system hardens</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 1</div>
+                  <div class="syllabus-title">The Terminal Environment & File Systems</div>
+                  <div class="syllabus-desc">Linux layout, navigation, standard input/output streams, text extraction and manipulation utilities (grep, sed, awk, regex).</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 2</div>
+                  <div class="syllabus-title">Permissions, Hardening & Package Management</div>
+                  <div class="syllabus-desc">Managing permissions (chmod, chown, ACLs), managing packages via APT/YUM, and configuring secure SSH key authentications.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 3</div>
+                  <div class="syllabus-title">Systemd, Networking & Performance Analytics</div>
+                  <div class="syllabus-desc">Deploying services with systemd, reading log dumps, monitoring resources (CPU, RAM, Disks), and configuring static networking.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 4</div>
+                  <div class="syllabus-title">Shell scripting & System Cron Automation</div>
+                  <div class="syllabus-desc">Writing loops, parsing arguments, conditional exits, and setting up crontab scheduler scripts to handle recurring tasks automatically.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AWS Cloud -->
+        <div id="course-aws" class="tab-panel">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 5–6 Weeks Course</span>
+              <h3>AWS Certified Cloud Solutions Architect</h3>
+              <p>
+                Architect high availability, fault tolerant, and secure cloud topologies. Acquire practical experience designing compute, network, database, and IAM structures aligned with the AWS certification roadmap.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> Secure Multi-VPC and peering architectures</div>
+                <div class="course-highlight-item"><span>✓</span> Auto-Scaling & Application Load Balancers</div>
+                <div class="course-highlight-item"><span>✓</span> RDS database replication and clustering</div>
+                <div class="course-highlight-item"><span>✓</span> Serverless server compute with Lambda</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Weeks 1–2</div>
+                  <div class="syllabus-title">Enterprise VPC Networking & Compute</div>
+                  <div class="syllabus-desc">Designing multi-tier subnets, configuring internet gateways, route tables, security groups, NAT Gateways, and deploying autoscaling EC2 instances.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Weeks 3–4</div>
+                  <div class="syllabus-title">Cloud Databases & Storage Structures</div>
+                  <div class="syllabus-desc">Provisioning RDS multi-AZ databases, DynamoDB, S3 Bucket lifecycle rules, CDN distributions with CloudFront, and EFS shared volumes.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 5</div>
+                  <div class="syllabus-title">Access Hardening & Serverless Engineering</div>
+                  <div class="syllabus-desc">IAM policies, Roles, Multi-account AWS Organizations, writing Lambda serverless background workers, and API Gateway configs.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 6</div>
+                  <div class="syllabus-title">Telemetry, Metrics & Cloud Audits</div>
+                  <div class="syllabus-desc">Centralized metrics using CloudWatch, setting up alerts, logging API calls with CloudTrail, and building Cost Explorer budgets.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Docker & Containers -->
+        <div id="course-docker" class="tab-panel">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 2–3 Weeks Course</span>
+              <h3>Docker & Container Engineering</h3>
+              <p>
+                Isolate and package your applications dynamically. Master writing secure Dockerfiles, managing environment compositions, container networks, volume mounts, and registry uploads.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> Microservices packaging with multi-stage builds</div>
+                <div class="course-highlight-item"><span>✓</span> Persistent data volumes and mounting options</div>
+                <div class="course-highlight-item"><span>✓</span> Container networks (bridge, host, overlay)</div>
+                <div class="course-highlight-item"><span>✓</span> Image scanning and vulnerability checks</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 1</div>
+                  <div class="syllabus-title">Containerization Fundamentals & Dockerfiles</div>
+                  <div class="syllabus-desc">Container runtime vs VM, basic container commands, writing Dockerfiles, image layer caching, and packaging Node, Python, or Java apps.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 2</div>
+                  <div class="syllabus-title">Volumes, Networks & Docker Compose</div>
+                  <div class="syllabus-desc">Creating host-mapped volumes, overlay networks, link configurations, and writing docker-compose.yml files for multi-container apps.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 3</div>
+                  <div class="syllabus-title">Micro-optimizations & Security Scanning</div>
+                  <div class="syllabus-desc">Applying multi-stage builds to shrink images by 90%, scanning with Trivy, and uploading verified images to AWS ECR and DockerHub.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terraform -->
+        <div id="course-terraform" class="tab-panel">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 3–4 Weeks Course</span>
+              <h3>Infrastructure as Code with Terraform</h3>
+              <p>
+                Never provision infrastructure manually again. Learn the HashiCorp Configuration Language (HCL) to code, version, modularize, and orchestrate secure cloud deployments.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> Dry-run planning and infrastructure graphing</div>
+                <div class="course-highlight-item"><span>✓</span> Remote state management & locking</div>
+                <div class="course-highlight-item"><span>✓</span> Reusable modular code architectures</div>
+                <div class="course-highlight-item"><span>✓</span> Terraform variables, outputs, and providers</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 1</div>
+                  <div class="syllabus-title">HCL Syntax & Basic Deployments</div>
+                  <div class="syllabus-desc">Defining resources, providers, input variables, outputs, executing init/plan/apply loops, and understanding Terraform graphs.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 2</div>
+                  <div class="syllabus-title">State Management & Remote Lockups</div>
+                  <div class="syllabus-desc">Working with local state, configuring secure S3 + DynamoDB remote backend file locking, and detecting configuration drifts.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 3</div>
+                  <div class="syllabus-title">Modular Engineering & Functions</div>
+                  <div class="syllabus-desc">Structuring enterprise layouts using modules, loops (count, for_each), HCL built-in functions, and conditional resources.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 4</div>
+                  <div class="syllabus-title">Workspaces, Imports & Pipeline Integration</div>
+                  <div class="syllabus-desc">Orchestrating dev/stage/prod workspaces, importing existing cloud components, and building validation test runs inside CI/CD.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CI/CD + Jenkins -->
+        <div id="course-cicd" class="tab-panel">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 4–5 Weeks Course</span>
+              <h3>CI/CD Pipelines & Jenkins Automation</h3>
+              <p>
+                Automate compile, audit, unit testing, container build, and deployment processes. Build continuous delivery solutions using Jenkins Declarative Pipelines and modern GitHub Actions.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> Declarative Jenkinsfiles and Agent nodes</div>
+                <div class="course-highlight-item"><span>✓</span> GitHub Actions matrices and reusable steps</div>
+                <div class="course-highlight-item"><span>✓</span> Artifact storage and image tag automation</div>
+                <div class="course-highlight-item"><span>✓</span> ArgoCD GitOps Kubernetes syncs</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Weeks 1–2</div>
+                  <div class="syllabus-title">Jenkins Administration & Declarative Pipelines</div>
+                  <div class="syllabus-desc">Installing Jenkins controllers, linking compute build nodes, managing credentials, and building scripts with multi-stage Declarative Jenkinsfiles.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 3</div>
+                  <div class="syllabus-title">GitHub Actions Runner Architectures</div>
+                  <div class="syllabus-desc">YAML configs, triggering workflows, using action matrices, managing cache targets, and automating code checkouts.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 4</div>
+                  <div class="syllabus-title">Integrated Pipelines & Security Scanning</div>
+                  <div class="syllabus-desc">Injecting static analyzer runs (SonarQube) and image checks (Trivy) to reject vulnerable code builds.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 5</div>
+                  <div class="syllabus-title">GitOps continuous deployment with ArgoCD</div>
+                  <div class="syllabus-desc">Setting up GitOps controllers with ArgoCD inside Kubernetes to synchronize infrastructure states directly from Git updates.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monitoring -->
+        <div id="course-monitoring" class="tab-panel">
+          <div class="course-detail-card">
+            <div class="course-info">
+              <span class="course-duration-badge">⏱️ 3–4 Weeks Course</span>
+              <h3>Monitoring & System Observability</h3>
+              <p>
+                Eliminate system downtime. Learn to collect time-series telemetry metrics using Prometheus, construct dashboard monitors in Grafana, and compile alerts that detect anomalies.
+              </p>
+              <div class="course-highlights">
+                <div class="course-highlight-item"><span>✓</span> Prometheus scrapers, targets, and exporters</div>
+                <div class="course-highlight-item"><span>✓</span> Complex PromQL metric query languages</div>
+                <div class="course-highlight-item"><span>✓</span> Interactive visualizations using Grafana</div>
+                <div class="course-highlight-item"><span>✓</span> Alertmanager alerts mapped to email/slack</div>
+              </div>
+              <a href="#contact" class="btn-primary" style="margin-top: 1rem; align-self: flex-start; text-decoration: none;">Get Started Track →</a>
+            </div>
+            <div class="course-syllabus">
+              <h4>Syllabus Timeline</h4>
+              <div class="syllabus-timeline">
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 1</div>
+                  <div class="syllabus-title">Telemetry, Metrics & Prometheus Setup</div>
+                  <div class="syllabus-desc">Observability fundamentals, metric collectors, configuring scrapers, and setting up exporter targets (Node, Blackbox Exporters).</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 2</div>
+                  <div class="syllabus-title">Prometheus alerting rules & Alertmanager</div>
+                  <div class="syllabus-desc">Writing alert threshold files, starting Prometheus Alertmanager, silencing noise, and routing logs to Slack and email APIs.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 3</div>
+                  <div class="syllabus-title">Grafana Dashboards & PromQL Queries</div>
+                  <div class="syllabus-desc">Querying time-series databases with PromQL, drawing charts, setting up target panels, and constructing central observability views.</div>
+                </div>
+                <div class="syllabus-timeline-item">
+                  <div class="syllabus-week">Week 4</div>
+                  <div class="syllabus-title">Central Logs with Loki & Tracing Overview</div>
+                  <div class="syllabus-desc">Aggregating system logs with Promtail and Loki, querying in Grafana, and an overview of distributed tracing frameworks.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -2036,6 +2564,17 @@
 
     const statsSection = document.querySelector('.hero-stats');
     if (statsSection) statsObs.observe(statsSection);
+
+    // Course Tab Switcher
+    function switchCourseTab(event, tabId) {
+      event.preventDefault();
+      const container = event.currentTarget.closest('.courses-container');
+      container.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      container.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      const targetPanel = document.getElementById(tabId);
+      if (targetPanel) targetPanel.classList.add('active');
+    }
   </script>
 </body>
 
